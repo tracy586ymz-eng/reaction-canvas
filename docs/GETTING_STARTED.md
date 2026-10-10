@@ -10,6 +10,8 @@ Open the application and click **体验示例（不联网）**. It draws a fixed
 
 ## Connect your own AI
 
+Follow the [complete LLM setup guide](LLM_SETUP.md) or [中文逐步教程](LLM_SETUP.zh-CN.md) for obtaining a key, exact setting fields, vision/free checks, a first test, local-service limits and troubleshooting.
+
 1. Open **设置**. Choose SiliconFlow or your existing OpenAI-compatible endpoint.
 2. Enter your own key in the app, and connect to fetch the model list. HTTP is allowed only for loopback/local services; remote services require HTTPS.
 3. Choose a model. Confirm its current price with the provider; for screenshots, confirm that it accepts images. The app does not infer free access from a model name.

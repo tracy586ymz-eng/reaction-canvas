@@ -29,6 +29,8 @@ Turn a molecular structure or patent screenshot into a discussion and a visual r
 
 ## Try it
 
+Connect your service once using [the LLM setup guide](docs/LLM_SETUP.md) ([中文逐步教程](docs/LLM_SETUP.zh-CN.md)): base URL → your key → verified model → capability/cost/consent → Save. Then test harmless text and an image before capture.
+
 Read [installation and first use](docs/GETTING_STARTED.md). Downloadable builds, when published, appear under [Releases](https://github.com/tracy586ymz-eng/reaction-canvas/releases). Never enter credentials in an issue or discussion.
 
 | Platform | Current evidence |
