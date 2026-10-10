@@ -1,0 +1,21 @@
+name: Bug report / 问题反馈
+description: Report a reproducible problem using synthetic data.
+title: '[Bug] '
+body:
+  - type: checkboxes
+    attributes:
+      label: Privacy / 隐私
+      options:
+        - label: I removed keys, private screenshots, endpoints, raw call logs and personal paths.
+          required: true
+  - type: input
+    attributes:
+      label: App version and operating system
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps and expected/actual behavior
+      description: Use the built-in example or synthetic inputs. No raw workspace backups.
+    validations:
+      required: true

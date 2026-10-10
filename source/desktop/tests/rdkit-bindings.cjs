@@ -1,0 +1,7 @@
+const {chromium}=require('playwright');const fs=require('fs');const path=require('path');fs.mkdirSync(path.resolve('../../work'),{recursive:true});
+(async()=>{
+ const browser=await chromium.launch({channel:process.env.PLAYWRIGHT_CHANNEL||'chrome',headless:true});
+ const samples=['CC(=O)O','CCO','CC(=O)OCC','O','[Na+].[OH-]','c1ccccc1','C[C@H](O)F','[13CH4]'];
+ async function outputs(file){const page=await browser.newPage();await page.goto('http://127.0.0.1:1420');await page.addScriptTag({content:fs.readFileSync(file,'utf8')});const result=await page.evaluate(async samples=>{const r=await window.initRDKitModule({locateFile:()=>'/rdkit/RDKit_minimal.wasm'});return samples.map(s=>{const m=r.get_mol(s);try{return {valid:m.is_valid(),smiles:m.get_smiles(),json:m.get_json(),descriptors:m.get_descriptors(),svg:m.get_svg(210,150)}}finally{m.delete()}})},samples);await page.close();return result}
+ try{const original=await outputs('node_modules/@rdkit/rdkit/dist/RDKit_minimal.js');const patched=await outputs('public/rdkit/RDKit_minimal.csp.js');if(JSON.stringify(original)!==JSON.stringify(patched))throw Error('CSP adapter changed molecule outputs');fs.writeFileSync(path.resolve('../../work/rdkit-bindings-check.json'),JSON.stringify({samples:8,methods:['is_valid','get_smiles','get_json','get_descriptors','get_svg'],identical:true,wasmChanged:false},null,2));console.log('Eight molecules match upstream across five RDKit methods')}finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exit(1)});

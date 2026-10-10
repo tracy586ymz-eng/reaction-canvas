@@ -1,0 +1,44 @@
+name: Build experimental installers (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Target build environment
+        type: choice
+        default: windows-latest
+        options: [windows-latest, macos-14]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ${{ inputs.platform }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: python3 scripts/check-public-source.py
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable snapshot
+      - run: npm ci
+        working-directory: source/desktop
+      - run: node scripts/generate-notices.mjs
+        working-directory: source/desktop
+      - run: npm test
+        working-directory: source/desktop
+      - run: cargo test --locked
+        working-directory: source/desktop/src-tauri
+      - if: runner.os == 'Windows'
+        run: npm run tauri -- build --config src-tauri/tauri.windows.conf.json
+        working-directory: source/desktop
+      - if: runner.os == 'macOS'
+        run: npm run tauri -- build --bundles app,dmg
+        working-directory: source/desktop
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: reaction-canvas-${{ inputs.platform }}-experimental
+          retention-days: 1
+          if-no-files-found: error
+          path: |
+            source/desktop/src-tauri/target/release/bundle/nsis/*.exe
+            source/desktop/src-tauri/target/release/bundle/dmg/*.dmg

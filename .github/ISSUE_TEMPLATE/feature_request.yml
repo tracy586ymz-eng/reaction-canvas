@@ -1,0 +1,9 @@
+name: Feature request / 功能建议
+description: Describe a user problem and a small proposed improvement.
+body:
+  - type: textarea
+    attributes:
+      label: Problem and proposed interaction
+      description: Include a synthetic example; do not include confidential research.
+    validations:
+      required: true

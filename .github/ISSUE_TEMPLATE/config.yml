@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security and confidential reports
+    url: https://github.com/tracy586ymz-eng/reaction-canvas/blob/main/SECURITY.md
+    about: Never include credentials or confidential data in public issues.

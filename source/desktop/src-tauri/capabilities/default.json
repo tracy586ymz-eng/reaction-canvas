@@ -1,0 +1,1 @@
+{"identifier":"desktop","description":"Local app windows only","windows":["main","panel"],"permissions":["core:default","dialog:allow-save"]}
